@@ -1,12 +1,6 @@
-from zipfile import ZipFile
-import os
+# Update the HTML to include a display of latitude and longitude values on the map
 
-# Create a new folder
-folder_path = "/mnt/data/Better_GPS_GoogleMap_Viewer"
-os.makedirs(folder_path, exist_ok=True)
-
-# Improved HTML content (no auto-refresh or trail, but better appearance)
-html_content = '''<!DOCTYPE html>
+html_with_coords = '''<!DOCTYPE html>
 <html>
 <head>
   <title>Live GPS Tracker</title>
@@ -28,11 +22,22 @@ html_content = '''<!DOCTYPE html>
       font-size: 1.5em;
       text-align: center;
     }
+    #info-box {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      font-size: 1em;
+    }
   </style>
 </head>
 <body>
   <header>Live GPS Tracker - ThingSpeak to Google Maps</header>
   <div id="map"></div>
+  <div id="info-box">Latitude: --, Longitude: --</div>
 
   <script>
     const channelID = 3007161;
@@ -66,6 +71,8 @@ html_content = '''<!DOCTYPE html>
         title: "Live Location",
         animation: google.maps.Animation.DROP
       });
+
+      document.getElementById("info-box").innerText = `Latitude: ${lat.toFixed(6)}, Longitude: ${lon.toFixed(6)}`;
     }
   </script>
 
@@ -75,14 +82,14 @@ html_content = '''<!DOCTYPE html>
 </body>
 </html>'''
 
-# Save HTML file
-html_file_path = os.path.join(folder_path, "index.html")
-with open(html_file_path, "w") as f:
-    f.write(html_content)
+# Save updated HTML
+updated_html_path = os.path.join(folder_path, "index.html")
+with open(updated_html_path, "w") as f:
+    f.write(html_with_coords)
 
-# Create a ZIP
-zip_path = "/mnt/data/Better_GPS_GoogleMap_Viewer.zip"
-with ZipFile(zip_path, 'w') as zipf:
-    zipf.write(html_file_path, arcname="index.html")
+# Create a new ZIP file
+updated_zip_path = "/mnt/data/Better_GPS_GoogleMap_Viewer_With_Coords.zip"
+with ZipFile(updated_zip_path, 'w') as zipf:
+    zipf.write(updated_html_path, arcname="index.html")
 
-zip_path
+updated_zip_path
