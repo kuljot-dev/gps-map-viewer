@@ -1,6 +1,4 @@
-# Update the HTML to include a display of latitude and longitude values on the map
-
-html_with_coords = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <title>Live GPS Tracker</title>
@@ -14,6 +12,7 @@ html_with_coords = '''<!DOCTYPE html>
     #map {
       height: 100%;
       width: 100%;
+      position: relative;
     }
     header {
       background-color: #4285F4;
@@ -24,13 +23,14 @@ html_with_coords = '''<!DOCTYPE html>
     }
     #info-box {
       position: absolute;
-      bottom: 20px;
-      left: 20px;
-      background-color: rgba(255, 255, 255, 0.9);
-      padding: 10px;
+      bottom: 10px;
+      left: 10px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 10px 15px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      font-size: 1em;
+      font-size: 14px;
+      z-index: 999;
     }
   </style>
 </head>
@@ -72,24 +72,14 @@ html_with_coords = '''<!DOCTYPE html>
         animation: google.maps.Animation.DROP
       });
 
+      // Update the info box
       document.getElementById("info-box").innerText = `Latitude: ${lat.toFixed(6)}, Longitude: ${lon.toFixed(6)}`;
     }
   </script>
 
+  <!-- Replace YOUR_API_KEY with your Google Maps API key -->
   <script async defer
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC3DTNe4Ql9JkPMPKoplQBGRfjGjSo1SmE&callback=initMap">
   </script>
 </body>
-</html>'''
-
-# Save updated HTML
-updated_html_path = os.path.join(folder_path, "index.html")
-with open(updated_html_path, "w") as f:
-    f.write(html_with_coords)
-
-# Create a new ZIP file
-updated_zip_path = "/mnt/data/Better_GPS_GoogleMap_Viewer_With_Coords.zip"
-with ZipFile(updated_zip_path, 'w') as zipf:
-    zipf.write(updated_html_path, arcname="index.html")
-
-updated_zip_path
+</html>
